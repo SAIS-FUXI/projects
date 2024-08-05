@@ -1,0 +1,80 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>VidGen-1M: A Large-Scale Dataset for Text-to-video Generation</title>
+<link href="./files/style.css" rel="stylesheet">
+<script type="text/javascript" src="./files/jquery.mlens-1.0.min.js"></script> 
+<script type="text/javascript" src="./files/jquery.js"></script>
+</head>
+<style> .centered {text-align: center;}</style>
+
+	
+<body>
+<div class="content">
+  <h1><strong>VidGen-1M: A Large-Scale Dataset for Text-to-video Generation</strong></h1>
+  <p id="authors" class="serif">
+    <span style="font-size: 0.9em">
+    <a href="https://scholar.google.com.hk/citations?user=XprTQQ8AAAAJ&hl=en&oi=ao">Zhiyu Tan<sup>1</sup></a>
+    <a href="https://kobeshegu.github.io/">Xiaomeng Yang<sup>2</sup></a>
+    <a href="https://llm-conditioned-diffusion.github.io/">Luozheng Qin<sup>2</sup></a>
+    <a href="https://scholar.google.com.hk/citations?user=pHN-QIwAAAAJ&hl=en">Hao Li<sup>1&dagger;</sup></a>
+    </span>
+    <br>
+  <span style="font-size: 1.0em; margin-top: 0.6em">
+    <a><sup>1</sup>Fudan University</a>
+    <a><sup>2</sup>ShangHai Academy of AI for Science</a>
+
+
+  <br>
+  </span>
+<span style="font-size: 12pt;"><b><sup>&dagger;</sup>Corresponding author & Project lead</b></span>
+  </p>
+  <br>
+  <img src="./files/dataset_teaser.png" class="teaser-gif" style="width:60%;"><br>
+    <font size="+2">
+          <p style="text-align: center;">
+            <a href="https://arxiv.org/abs/xxxx.xxxx" target="_blank">[Arxiv]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="files/bibtex.txt" target="_blank">[BibTeX]</a>
+          </p>
+    </font>
+</div>
+<div class="content">
+  <h2 style="text-align:center;">&#x1F525;News</h2>
+  <p>&#x2705; 2024.08.05 We released the paper and the project page.</p>
+  <p>&#x1F4DD; The code and the dataset will coming soon, please stay tuned.</p>
+</div>
+<div class="content">
+  <h2 style="text-align:center;">Abstract</h2>
+  <p>The quality of text-video pairs fundamentally determines the performance potential of text-to-video models. Currently, the datasets used for training these models suffer from significant shortcomings, including low temporal consistency, poor-quality captions, substandard video quality, and imbalanced data distribution. The prevailing video curation process, which depends on image models for tagging and manual rule-based curation, leads to a high computational load and leaves behind unclean data. As a result, there is a lack of appropriate training datasets for text-to-video models. To rectify this, we present VidGen-1M, a superior training dataset for text-to-video models. Produced through a coarse-to-fine curation strategy, this dataset guarantees high-quality videos and detailed captions with excellent temporal consistency. When used to train the video generation model, this dataset has led to experimental results that surpass those obtained with other models.</p>
+</div>
+<div class="content">
+  <h2>Data Distribution</h2>
+  <img src="./files/data_distribution.png" class="teaser-gif" style="width:100%;"><br>
+  <p>By employing tags associated with visual quality, temporal consistency, category, and motion, we undertook the task of filtering and sampling. The curated data distribution across multiple dimensions in our dataset is depicted in the above figure. This figure clearly indicates that videos characterized by low quality, static scene, excessive motion speed, and those demonstrating inadequate alignment between text and video along with poor temporal consistency were systematically removed. Concurrently, we have ensured a relatively even distribution of high quality samples across diverse categories.</p>
+</div>
+<div class="content">
+  <h2>LLM-based Fine Curation</h2>
+  <img src="./files/caption_compare.png" class="teaser-gif" style="width:100%;"><br>
+  <p>In the stages of coarse curation and captioning, filtering for text-image alignment and temporal consistency using the CLIP score can remove some inconsistent data, but it is not entirely effective. Consequently, issues such as scene transitions in video, and two typical description errors occur in video captions: 1) Failed generating eos token, where the model fails to properly terminate the generation process, leading to looping or repetitive token generation, and 2) Frame-level generation, where the model lacks understanding of the dynamic relationships between frames and generates isolated descriptions for each frame, resulting in captions that lack coherence and fail to accurately reflect the video's overall storyline and action sequence.</p>
+  <p>In our endeavor to isolate and remove video-text pairings that exhibit discrepancies in both text-video alignment and temporal consistency, we leveraged the cutting-edge Language Model (LLM), LLAMA3.1, to scrutinize the respective captions in an efficient way. The application of the fine curation has facilitated a marked improvement in the quality of the text-video pairs, as evidenced in the above figure. Our study primarily centers around three critical factors: Scene Transition (ST), Frame-level Generation (FLG), and Reduplication (Redup).</p>
+</div>
+<div class="content">
+  <h2>Results</h2>
+  <img src="./files/gen_vis.png" class="teaser-gif" style="width:60%;"><br>
+  <p>By training on the proposed VidGen-1M, we can achieve high performance in text-to-video generation.</p>
+</div>
+<div class="content">
+  <h2>BibTex</h2>
+  <code> @article{tan2024llmdiffusion,<br>
+  &nbsp;&nbsp;title={VidGen-1M: A Large-Scale Dataset for Text-to-video Generation},<br>
+  &nbsp;&nbsp;author={Tan, Zhiyu and Yang, Xiaomeng, and Qin, Luozheng and Li Hao},<br>
+  &nbsp;&nbsp;booktitle={arXiv preprint arxiv:xxxx.xxxx},<br>
+  &nbsp;&nbsp;year={2024}<br>
+  } </code> 
+</div>
+<div class="content">
+  <h2>Acknowledgement</h2>
+  The project page template is borrowed from <a href="https://dreambooth.github.io/">DreamBooth</a>.
+</div>
+</body>
+</html>
