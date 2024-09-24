@@ -1,0 +1,6 @@
+@article{tan2024vidgen,
+  title={VidGen-1M: A Large-Scale Dataset for Text-to-video Generation},
+  author={Tan, Zhiyu and Yang, Xiaomeng, and Qin, Luozheng and Li Hao},
+  booktitle={arXiv preprint arxiv:2408.02629},
+  year={2024}
+}

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VidGen-1M: A Large-Scale Dataset for Text-to-video Generation</title>
+    <!-- 引入Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 引入Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- 引入AOS库 -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a1a1a, #333); /* 渐变背景 */
+            color: #fff; /* 白色文本 */
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+        }
+        .content {
+            background-color: rgba(0, 0, 0, 0.7); /* 半透明黑色背景 */
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        .video-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .video-item {
+            width: 48%; /* 每个视频占48%，每行两个视频 */
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .video-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+        video {
+            width: 100%;
+            border-radius: 8px;
+        }
+        .description {
+            margin-top: 10px;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #fff; /* 白色文本 */
+        }
+        @media screen and (max-width: 768px) {
+            .video-item {
+                width: 100%; /* 在较小屏幕上每行一个视频 */
+            }
+        }
+        /* 全屏背景视频 */
+        #background-video {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <!-- 全屏背景视频 -->
+    <video autoplay muted loop id="background-video">
+        <source src="./files/background-video.mp4" type="video/mp4">
+        您的浏览器不支持视频标签。
+    </video>
+
+    <div class="container mt-5">
+        <div class="content text-center animate__animated animate__fadeInDown" data-aos="fade-up">
+            <h1 class="display-4"><strong>Video Generation</strong></h1>
+            <p id="authors" class="serif">
+                <span style="font-size: 0.9em"></span><br>
+                <span style="font-size: 1.0em; margin-top: 0.6em"><br></span>
+            </p>
+        </div>
+
+        <div class="content text-center animate__animated animate__fadeInUp" data-aos="fade-up">
+            <h2>Abstract</h2>
+            <p></p>
+        </div>
+
+        <div class="content animate__animated animate__fadeInUp" data-aos="fade-up">
+            <h2 class="text-center">Results</h2>
+            
+            <!-- 视频行 -->
+            <div class="video-row">
+                <div class="video-item" data-aos="zoom-in">
+                    <video controls>
+                        <source src="./files/8.mp4" type="video/mp4">
+                        您的浏览器不支持视频标签。
+                    </video>
+                    <div class="description">
+                        <h2></h2>
+                        <p>easter bunny, high ornamented light armor, fluffy fur, basket full of painted eggs, 70mm, cinematic, highly detailed</p>
+                    </div>
+                </div>
+
+                <div class="video-item" data-aos="zoom-in">
+                    <video controls>
+                        <source src="./files/15.mp4" type="video/mp4">
+                        您的浏览器不支持视频标签。
+                    </video>
+                    <div class="description">
+                        <h2></h2>
+                        <p>A portrait of a young woman with sun-kissed blonde wavy hair and light hazel eyes. She has a clear complexion with a scattering of freckles across her nose and cheeks. Her expression is contemplative as she gazes towards the viewer. She wears minimal makeup, with a focus on her eyes, and an elegant white or silver drop earring. She is in a simple black sleeveless top, against a soft, natural background suggesting an outdoor setting. The lighting is soft and natural, highlighting her features with a serene ambiance.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 继续添加视频行 -->
+            <div class="video-row">
+                <div class="video-item" data-aos="zoom-in">
+                    <video controls>
+                        <source src="./files/20.mp4" type="video/mp4">
+                        您的浏览器不支持视频标签。
+                    </video>
+                    <div class="description">
+                        <h2></h2>
+                        <p>bunny, high ornamented light armor, fluffy fur, foggy, wet, stormy, 70mm, cinematic, highly detailed</p>
+                    </div>
+                </div>
+
+                <div class="video-item" data-aos="zoom-in">
+                    <video controls>
+                        <source src="./files/24.mp4" type="video/mp4">
+                        您的浏览器不支持视频标签。
+                    </video>
+                    <div class="description">
+                        <h2></h2>
+                        <p>female dressed as samurai, gorgeous, attractive, flirting,full body, looking at viewer, portrait, photography, detailed skin, realistic, photo-realistic, 8k, highly detailed, full length frame, High detail RAW color art, piercing, diffused soft lighting, shallow depth of field, sharp focus, hyperrealism, cinematic lighting</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 继续添加更多视频行 -->
+            <div class="video-row">
+                <div class="video-item" data-aos="zoom-in">
+                    <video controls>
+                        <source src="./files/37.mp4" type="video/mp4">
+                        您的浏览器不支持视频标签。
+                    </video>
+                    <div class="description">
+                        <h2></h2>
+                        <p>Cat,orange tabby,renaissance costume,ruff collar,golden robe,studio portrait,noble demeanor,detailed embroidery,ornate jewelry,dark background,regal pose,sharp focus,historical fashion,rich textures</p>
+                    </div>
+                </div>
+
+                <div class="video-item" data-aos="zoom-in">
+                    <video controls>
+                        <source src="./files/41.mp4" type="video/mp4">
+                        您的浏览器不支持视频标签。
+                    </video>
+                    <div class="description">
+                        <h2></h2>
+                        <p>anthropomorphic pug dog, in a robe, eating breakfast and reading the newspaper, lightroom, cinematic, hdr, raw, intricate, high quality, soothing tones, intricate details, low contrast</p>
+                    </div>
+                </div>
+            </div>
+
+           <!-- 继续添加更多视频行 -->
+          <div class="video-row">
+            <div class="video-item">
+              <video controls>
+                  <source src="./files/Animated_scene_features_a_close-up_of_a_short_fluffy_monster_kneeling_beside_a_melting_red_candle._The_art_style_is_3D_a1726641075_0_webv_imageio.mp4" type="video/mp4">
+                  您的浏览器不支持视频标签。
+              </video>
+              <div class="description">
+                  <h2></h2>
+                  <p>Animated scene features a close-up of a short fluffy monster kneeling beside a melting red candle. The art style is 3D and realistic, with a focus on lighting and texture. The mood of the painting is one of wonder and curiosity, as the monster gazes at the flame with wide eyes and open mouth. Its pose and expression convey a sense of innocence and playfulness, as if it is exploring the world around it for the first time. The use of warm colors and dramatic lighting further enhances the cozy atmosphere of the image.</p>
+              </div>
+            </div>
+
+            <div class="video-item">
+              <video controls>
+                  <source src="./files/The_video_begins_with_a_dark_frame,_gradually_lightening_to_reveal_a_black_luxury_car_with_its_headlights_on,_driving_on1726805332_0_webv_imageio.mp4" type="video/mp4">
+                  您的浏览器不支持视频标签。
+              </video>
+              <div class="description">
+                  <h2></h2>
+                  <p>The video begins with a dark frame, gradually lightening to reveal a black luxury car with its headlights on, driving on a street. The car appears to be a Bentley, characterized by its distinctive front grille and emblem. As the car moves forward, the headlights create a heart-shaped pattern on the road. The surroundings suggest an urban setting with buildings and other parked cars visible in the background. The lighting conditions indicate it might be early morning or late afternoon.</p>
+              </div>
+            </div>
+          </div>
+
+            <!-- 继续添加更多视频行 -->
+            <div class="video-row">
+              <div class="video-item">
+                <video controls>
+                    <source src="./files/The_video_displays_a_serene_river_scene_with_a_large_tree_on_the_left_side,_its_leaves_a_mix_of_green_and_red,_suggestin1726805288_0_webv_imageio.mp4" type="video/mp4">
+                    您的浏览器不支持视频标签。
+                </video>
+                <div class="description">
+                    <h2></h2>
+                    <p>The video displays a serene river scene with a large tree on the left side, its leaves a mix of green and red, suggesting a change in seasons. The water is a calm purple, with white foam forming at the center, indicating a gentle current or disturbance. The riverbank is lined with grass and reeds, and the sky is a soft pinkish hue, possibly indicating either dawn or dusk. There are no visible animals or people, and the scene is static with no movement other than the flowing water.</p>
+                </div>
+              </div>
+
+              <div class="video-item">
+                <video controls>
+                    <source src="./files/The_video_features_a_band_performing_in_a_dimly_lit_room_with_an_orange_hue._The_band_consists_of_a_drummer_seated_in_th1726805290_0_webv_imageio.mp4" type="video/mp4">
+                    您的浏览器不支持视频标签。
+                </video>
+                <div class="description">
+                    <h2></h2>
+                    <p>The video features a band performing in a dimly lit room with an orange hue. The band consists of a drummer seated in the center, wearing a black suit and playing a drum set that includes at least one snare drum, a bass drum, and cymbals. To the left of the drummer, there is a bass player holding a red double bass, and to the right, a trumpet player is visible. The trumpet player is wearing a black suit and playing a trumpet. The background is dark, and the focus is on the musicians and their instruments.</p>
+                </div>
+              </div>
+            </div>
+
+          <!-- 继续添加更多视频行 -->
+          <div class="video-row">
+            <div class="video-item">
+              <video controls>
+                  <source src="./files/The_video_features_a_man_dressed_in_a_dark_coat_and_hat_standing_in_a_room_with_a_blueish_hue._He_is_holding_a_glowing_b1726741662_0_webv_imageio.mp4" type="video/mp4">
+                  您的浏览器不支持视频标签。
+              </video>
+              <div class="description">
+                  <h2></h2>
+                  <p>The video features a man dressed in a dark coat and hat standing in a room with a blueish hue. He is holding a glowing blue object in his right hand, which appears to be a phone or a small device. The man is looking at the object with a focused expression. The room has a futuristic feel, with what appears to be a transparent wall or panel in the background. There is a light source in the foreground, possibly a lamp or a light fixture, that is out of focus. The man's attire and the glowing object suggest a theme of technology or science fiction.</p>
+              </div>
+            </div>
+
+            <div class="video-item">
+              <video controls>
+                  <source src="./files/The_video_features_a_series_of_images_from_a_fantasy-themed_setting._In_the_foreground,_there_are_two_blurred_figures,_p1726741662_0_webv_imageio.mp4" type="video/mp4">
+                  您的浏览器不支持视频标签。
+              </video>
+              <div class="description">
+                  <h2></h2>
+                  <p>The video features a series of images from a fantasy-themed setting. In the foreground, there are two blurred figures, presumably the heads of two onlookers. The central figure is a knight dressed in dark armor, including a helmet, and is holding a large sword. The knight is standing in a forest with tall trees, and there is a hazy, smoky atmosphere in the background. Behind the knight, there are several other figures that appear to be soldiers or warriors, also dressed in dark armor and holding weapons. The lighting is dim, suggesting either dawn or dusk, and the overall color palette is dark with hints of green from the forest.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 继续添加更多视频行 -->
+          <div class="video-row">
+            <div class="video-item">
+              <video controls>
+                  <source src="./files/The_video_features_a_series_of_images_from_an_animated_movie._The_main_character_is_a_girl_with_a_pink_helmet_and_a_pink1726805288_0_webv_imageio.mp4" type="video/mp4">
+                  您的浏览器不支持视频标签。
+              </video>
+              <div class="description">
+                  <h2></h2>
+                  <p>The video features a series of images from an animated movie. The main character is a girl with a pink helmet and a pink dress, sitting in a green and pink go-kart with large wheels. The setting appears to be a colorful, cartoonish race track with other characters and go-karts in the background. The girl's expression changes from neutral to excited as she prepares to race. The go-kart has a number '2' on the side, and there are flames coming out of the back of the kart, indicating that it is ready to go. The background includes other characters and go-karts, suggesting a competitive atmosphere.</p>
+              </div>
+            </div>
+
+            <div class="video-item">
+              <video controls>
+                  <source src="./files/The_video_features_a_small,_dark-colored_house_with_a_sloped_roof_and_two_visible_windows_emitting_a_warm,_yellow_light.1726741662_0_webv_imageio.mp4" type="video/mp4">
+                  您的浏览器不支持视频标签。
+              </video>
+              <div class="description">
+                  <h2></h2>
+                  <p>The video features a small, dark-colored house with a sloped roof and two visible windows emitting a warm, yellow light. The house is situated in a wooded area with tall, dense trees surrounding it. The ground appears to be covered with gravel or small stones. The lighting is dim, and the overall color palette of the video is dark with shades of blue and black dominating the scene. There is no movement or action within the video, and no other objects or people are visible.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 继续添加更多视频行 -->
+          <div class="video-row">
+            <div class="video-item">
+              <video controls>
+                  <source src="./files/The_video_features_a_woman_dressed_in_a_royal_costume,_including_a_crown_and_a_veil._She_is_wearing_a_red_dress_with_a_b1726741662_0_webv_imageio.mp4" type="video/mp4">
+                  您的浏览器不支持视频标签。
+              </video>
+              <div class="description">
+                  <h2></h2>
+                  <p>The video features a woman dressed in a royal costume, including a crown and a veil. She is wearing a red dress with a blue sash and a gold necklace. The setting appears to be a dimly lit room with a candle in the background, giving it an old-fashioned or historical ambiance. The woman's expression changes throughout the video, suggesting she is engaged in a conversation or reacting to someone or something off-camera.</p>
+              </div>
+            </div>
+
+            <div class="video-item">
+              <video controls>
+                  <source src="./files/The_video_features_a_woman_standing_in_a_dimly_lit_room_with_a_blueish_hue._She_is_wearing_a_black_turtleneck_top_and_ca1726741702_0_webv_imageio.mp4" type="video/mp4">
+                  您的浏览器不支持视频标签。
+              </video>
+              <div class="description">
+                  <h2></h2>
+                  <p>The video features a woman standing in a dimly lit room with a blueish hue. She is wearing a black turtleneck top and camouflage pants. The woman has her hair tied back and is wearing a headset. She is holding a black tablet in her hands. Throughout the video, she is speaking, and her expressions change as she talks. The background is blurred, but there are some yellow signs with numbers on them, and what appears to be a doorway or entrance to another room. The lighting in the room is low, with some light coming from the background, possibly from a screen or window.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 继续添加更多视频行 -->
+          <div class="video-row">
+            <div class="video-item">
+              <video controls>
+                  <source src="./files/The_video_features_a_woman_with_curly_hair,_wearing_a_dark_coat,_standing_in_front_of_a_wall_with_graffiti._The_graffiti1726741662_0_webv_imageio.mp4" type="video/mp4">
+                  您的浏览器不支持视频标签。
+              </video>
+              <div class="description">
+                  <h2></h2>
+                  <p>The video features a woman with curly hair, wearing a dark coat, standing in front of a wall with graffiti. The graffiti includes various colors and shapes, but the details are not clear. The woman appears to be looking off to the side, possibly at something or someone not visible in the frame. Her expression is neutral, and she does not appear to be moving much. The lighting is dim, and the overall color palette of the scene is dark and muted.</p>
+              </div>
+            </div>
+
+            <div class="video-item">
+              <video controls>
+                  <source src="./files/The_video_features_a_woman_with_her_hair_styled_in_an_updo,_wearing_a_sleeveless,_ruffled_beige_dress._She_is_standing_i1726805332_0_webv_imageio.mp4" type="video/mp4">
+                  您的浏览器不支持视频标签。
+              </video>
+              <div class="description">
+                  <h2></h2>
+                  <p>The video features a woman with her hair styled in an updo, wearing a sleeveless, ruffled beige dress. She is standing in a room with a dark ambiance, illuminated by a soft light that casts a gentle glow on her face. Behind her, there is a large orange box with the word \"Beta\" written in white letters. To the left of the woman, there is a piece of equipment with a green hose attached to it. The woman's expression is serious, and she appears to be looking off to the side with a contemplative gaze.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 继续添加更多视频行 -->
+          <div class="video-row">
+            <div class="video-item">
+              <video controls>
+                  <source src="./files/The_video_is_a_close-up_shot_of_a_lion's_face,_with_the_focus_on_its_eyes_and_facial_expressions._The_lion's_fur_is_a_li1726805332_0_webv_imageio.mp4" type="video/mp4">
+                  您的浏览器不支持视频标签。
+              </video>
+              <div class="description">
+                  <h2></h2>
+                  <p>The video is a close-up shot of a lion's face, with the focus on its eyes and facial expressions. The lion's fur is a light tan color, and its eyes are a deep brown. The background is blurred but appears to be a natural landscape with greenery and a blue sky. The lion's expression changes slightly throughout the video, with its eyes moving and its mouth opening and closing. There are no other objects or animals visible in the video.</p>
+              </div>
+            </div>
+
+            <div class="video-item">
+              <video controls>
+                  <source src="./files/The_video_is_a_collection_of_still_images_showing_a_woman_with_dark_hair,_wearing_a_dark_blazer_and_a_light-colored_top.1726741662_0_webv_imageio.mp4" type="video/mp4">
+                  您的浏览器不支持视频标签。
+              </video>
+              <div class="description">
+                  <h2></h2>
+                  <p>The video is a collection of still images showing a woman with dark hair, wearing a dark blazer and a light-colored top. She has a necklace with a small pendant. The background is consistent across the images, featuring blurred lights that suggest an indoor setting with a festive or decorative atmosphere. The woman's expressions change subtly from one image to the next, ranging from a neutral look to a slight smile. The lighting is soft and even, highlighting her features without harsh shadows.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 继续添加更多视频行 -->
+          <div class="video-row">
+            <div class="video-item">
+              <video controls>
+                  <source src="./files/The_video_is_a_compilation_of_still_images_that_depict_a_bald_man_with_a_beard_and_a_nose_ring,_wearing_a_black_shirt_wi1726741062_0_webv_imageio.mp4" type="video/mp4">
+                  您的浏览器不支持视频标签。
+              </video>
+              <div class="description">
+                  <h2></h2>
+                  <p>The video is a compilation of still images that depict a bald man with a beard and a nose ring, wearing a black shirt with a yellow collar. He is seated inside a car with a steering wheel, which has a yellow cloth tied around it. The car appears to be old and dirty, with a dusty exterior and a rusted hood. The man's expressions change slightly across the images, suggesting that he is speaking or reacting to something. The background is consistent, indicating that the car is stationary.</p>
+              </div>
+            </div>
+
+            <div class="video-item">
+              <video controls>
+                  <source src="./files/The_video_is_a_sequence_of_images_showing_a_man_in_a_dark,_outdoor_setting_at_night._The_man_is_dressed_in_a_dark_green_1726805332_0_webv_imageio.mp4" type="video/mp4">
+                  您的浏览器不支持视频标签。
+              </video>
+              <div class="description">
+                  <h2></h2>
+                  <p>The video is a sequence of images showing a man in a dark, outdoor setting at night. The man is dressed in a dark green jacket with a belt, and he is holding a lantern that emits a warm, yellow light. The background is dark and snowy, with snowflakes falling in the air. The man's expression is serious, and he appears to be looking off into the distance. The lantern has a decorative metal frame, and the man is holding it with his right hand. The light from the lantern casts a soft glow on the man's face and the surrounding area.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 继续添加更多视频行 -->
+          <div class="video-row">
+            <div class="video-item">
+              <video controls>
+                  <source src="./files/The_video_is_a_sequence_of_images_showing_a_woman_with_blonde_hair_and_blue_eyes._She_is_wearing_a_green_top_and_is_situ1726805288_0_webv_imageio.mp4" type="video/mp4">
+                  您的浏览器不支持视频标签。
+              </video>
+              <div class="description">
+                  <h2></h2>
+                  <p>The video is a sequence of images showing a woman with blonde hair and blue eyes. She is wearing a green top and is situated in a dimly lit room with wooden walls. The woman's expressions change throughout the sequence, starting with a neutral look, then showing a slight smile, followed by a more pronounced smile, and finally ending with a serious expression. The lighting in the room is warm, and there is a lamp visible in the background.</p>
+              </div>
+            </div>
+
+            <div class="video-item">
+              <video controls>
+                  <source src="./files/The_video_is_a_sequence_of_images_showing_a_woman_with_dark_hair_styled_in_an_updo,_wearing_a_black_off-shoulder_dress_a1726741098_0_webv_imageio.mp4" type="video/mp4">
+                  您的浏览器不支持视频标签。
+              </video>
+              <div class="description">
+                  <h2></h2>
+                  <p>The video is a sequence of images showing a woman with dark hair styled in an updo, wearing a black off-shoulder dress and earrings. She is in a dimly lit room with a blurred background that suggests a social setting. Her expressions change subtly across the images, from a slight smile to a more neutral expression. The lighting is soft and focused on her face, highlighting her features and makeup.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 继续添加更多视频行 -->
+          <div class="video-row">
+            <div class="video-item">
+              <video controls>
+                  <source src="./files/The_video_presents_a_series_of_images_depicting_a_cityscape_at_night._The_scene_is_dominated_by_tall_buildings_with_nume1726805332_0_webv_imageio.mp4" type="video/mp4">
+                  您的浏览器不支持视频标签。
+              </video>
+              <div class="description">
+                  <h2></h2>
+                  <p>The video presents a series of images depicting a cityscape at night. The scene is dominated by tall buildings with numerous windows, some of which are illuminated, creating a contrast against the dark sky. The streets are lined with lights from moving vehicles, indicating active traffic. The buildings vary in height and architecture, with some featuring modern glass facades and others with more traditional designs. The overall color palette is dark with pops of yellow and white from the lights. There is no visible movement of people, suggesting the video was taken from a high vantage point.</p>
+              </div>
+            </div>
+
+            <div class="video-item">
+              <video controls>
+                  <source src="./files/The_video_shows_a_black_Peugeot_car_with_a_license_plate_that_reads_902_COF_78._The_car_is_driving_on_a_cobblestone_ro1726805332_0_webv_imageio.mp4" type="video/mp4">
+                  您的浏览器不支持视频标签。
+              </video>
+              <div class="description">
+                  <h2></h2>
+                  <p>The video shows a black Peugeot car with a license plate that reads \"902 COF 78\". The car is driving on a cobblestone road, then turns onto a paved road with a red and white traffic sign on the right side. The car continues driving down the road, passing by trees and buildings. The sky is overcast, and the car's headlights are on.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+    </div>
+
+    <!-- 引入Bootstrap JS和依赖 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- 引入AOS库 -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+</body>
+</html>
