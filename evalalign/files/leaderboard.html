@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>EvalAlign Leaderboard</title>
+<link href="style.css" rel="stylesheet">
+<script type="text/javascript" src="jquery.mlens-1.0.min.js"></script> 
+<script type="text/javascript" src="jquery.js"></script>
+<style>
+/* Leaderboard Styles */
+.leaderboard-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    margin: 20px 0;
+}
+.leaderboard-table {
+    width: 100%;
+    max-width: 1000px;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 11.3pt;
+}
+.leaderboard-table th, .leaderboard-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    position: relative;
+    width: 20%;
+}
+.leaderboard-table th {
+    background-color: #2196F3;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+.leaderboard-table th:hover {
+    background-color: #1976D2;
+}
+.leaderboard-table th.sort-asc::after {
+    content: " ▲";
+    color: #fff;
+}
+.leaderboard-table th.sort-desc::after {
+    content: " ▼";
+    color: #fff;
+}
+.leaderboard-table tr:nth-child(even) {
+    background-color: #e3f2fd;
+}
+.leaderboard-table tr:hover {
+    background-color: #bbdefb;
+}
+.rank {
+    font-size: 12px;
+    color: #777;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}
+.leaderboard-table td[data-score1], .leaderboard-table td[data-score2], .leaderboard-table td[data-score3], .leaderboard-table td[data-score4] {
+    text-align: center;
+}
+</style>
+</head>
+<body>
+<div class="content">
+  <h1><strong>EvalAlign: Supervised Fine-Tuning Multimodal LLMs with Human-Aligned Data for Evaluating Text-to-Image Models</strong></h1>
+  <p id="authors" class="serif">
+    <span style="font-size: 0.9em">
+    <a>Zhiyu Tan<sup>1</sup></a>
+    <a>Xiaomeng Yang<sup>2</sup></a>
+    <a>Luozheng Qin<sup>2</sup></a>
+    <a>Mengping Yang<sup>2</sup></a>
+    <a>Cheng Zhang<sup>3</sup></a>
+    <a>Hao Li<sup>1&dagger;</sup></a>
+    </span>
+    <br>
+  <span style="font-size: 1.0em; margin-top: 0.6em">
+    <a><sup>1</sup>Fudan University</a>
+    <a><sup>2</sup>ShangHai Academy of AI for Science</a>
+    <a><sup>3</sup>Texas A&M University</a>
+  <br>
+  </span>
+<span style="font-size: 12pt;"><b><sup>&dagger;</sup>Corresponding author & Project lead</b></span>
+  </p>
+    <font size="+2">
+          <p style="text-align: center;">
+      <a href="https://arxiv.org/abs/2406.16562" target="_blank">[Arxiv]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="https://github.com/SAIS-FUXI/EvalAlign" target="_blank">[Code]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="https://huggingface.co/Fudan-FUXI/evalalign-v1.0-13b" target="_blank">[Model]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="https://sais-fuxi.github.io/projects/evalalign" target="_blank">[Page]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="leaderboard.html" target="_blank">[Leaderboard]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="bibtex.txt" target="_blank">[BibTeX]</a>
+          </p>
+    </font>
+    <table class="leaderboard-table" id="leaderboard">
+        <thead>
+            <tr>
+                <th id="name-header">Model</th>
+                <th id="faithfulness-human-header">Image Faithfulness (Human)</th>
+                <th id="faithfulness-evalalign-header">Image Faithfulness (EvalAlign)</th>
+                <th id="alignment-human-header">Text-image Alignment (Human)</th>
+                <th id="alignment-evalalign-header">Text-image Alignment (EvalAlign)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>PixArt-XL-2-1024-MS</td>
+                <td data-score1="2.2848">2.2848<span class="rank"></span></td>
+                <td data-score2="1.6415">1.6415<span class="rank"></span></td>
+                <td data-score3="5.1100">5.1100<span class="rank"></span></td>
+                <td data-score4="5.3100">5.3100<span class="rank"></span></td>
+            </tr>
+            <tr>
+                <td>Dreamlike Photoreal v2.0</td>
+                <td data-score1="2.0070">2.0070<span class="rank"></span></td>
+                <td data-score2="1.4522">1.4522<span class="rank"></span></td>
+                <td data-score3="4.5600">4.5600<span class="rank"></span></td>
+                <td data-score4="4.9800">4.9800<span class="rank"></span></td>
+            </tr>
+            <tr>
+                <td>SDXL Refiner v1.0</td>
+                <td data-score1="1.9229">1.9229<span class="rank"></span></td>
+                <td data-score2="1.6072">1.6072<span class="rank"></span></td>
+                <td data-score3="5.2100">5.2100<span class="rank"></span></td>
+                <td data-score4="5.4000">5.4000<span class="rank"></span></td>
+            </tr>
+            <tr>
+                <td>SDXL v1.0</td>
+                <td data-score1="1.8136">1.8136<span class="rank"></span></td>
+                <td data-score2="1.4675">1.4675<span class="rank"></span></td>
+                <td data-score3="5.0300">5.0300<span class="rank"></span></td>
+                <td data-score4="5.3500">5.3500<span class="rank"></span></td>
+            </tr>
+            <tr>
+                <td>Wuerstchen</td>
+                <td data-score1="1.7837">1.7837<span class="rank"></span></td>
+                <td data-score2="1.4279">1.4279<span class="rank"></span></td>
+                <td data-score3="5.0300">4.8700<span class="rank"></span></td>
+                <td data-score4="5.3500">5.1700<span class="rank"></span></td>
+            </tr>
+            <tr>
+                <td>LCM SDXL</td>
+                <td data-score1="1.6910">1.6910<span class="rank"></span></td>
+                <td data-score2="1.3391">1.3391<span class="rank"></span></td>
+                <td data-score3="5.1800">5.1800<span class="rank"></span></td>
+                <td data-score4="5.3300">5.3300<span class="rank"></span></td>
+            </tr>
+            <tr>
+                <td>Openjourney</td>
+                <td data-score1="1.6667">1.6667<span class="rank"></span></td>
+                <td data-score2="1.1750">1.1750<span class="rank"></span></td>
+                <td data-score3="4.8300">4.8300<span class="rank"></span></td>
+                <td data-score4="4.9200">4.9200<span class="rank"></span></td>
+            </tr>
+            <tr>
+                <td>Safe SD MAX</td>
+                <td data-score1="1.6491">1.6491<span class="rank"></span></td>
+                <td data-score2="1.2175">1.2175<span class="rank"></span></td>
+                <td data-score3="4.3100">4.3100<span class="rank"></span></td>
+                <td data-score4="4.5900">4.5900<span class="rank"></span></td>
+            </tr>
+            <tr>
+                <td>LCM LoRA SDXL</td>
+                <td data-score1="1.6387">1.6387<span class="rank"></span></td>
+                <td data-score2="1.3833">1.3833<span class="rank"></span></td>
+                <td data-score3="5.0600">5.0600<span class="rank"></span></td>
+                <td data-score4="5.2700">5.2700<span class="rank"></span></td>
+            </tr>
+            <tr>
+                <td>Safe SD STRONG</td>
+                <td data-score1="1.6308">1.6308<span class="rank"></span></td>
+                <td data-score2="1.1466">1.1466<span class="rank"></span></td>
+                <td data-score3="4.6000">4.6000<span class="rank"></span></td>
+                <td data-score4="4.8300">4.8300<span class="rank"></span></td>
+            </tr>
+            <tr>
+                <td>Safe SD MEDIUM</td>
+                <td data-score1="1.6275">1.6275<span class="rank"></span></td>
+                <td data-score2="1.1298">1.1298<span class="rank"></span></td>
+                <td data-score3="4.4000">4.4000<span class="rank"></span></td>
+                <td data-score4="4.5600">4.5600<span class="rank"></span></td>
+            </tr>
+            <tr>
+                <td>Safe SD WEAK</td>
+                <td data-score1="1.6078">1.6078<span class="rank"></span></td>
+                <td data-score2="1.1188">1.1188<span class="rank"></span></td>
+                <td data-score3="4.5300">4.5300<span class="rank"></span></td>
+                <td data-score4="4.7100">4.7100<span class="rank"></span></td>
+            </tr>
+            <tr>
+                <td>SD v2.1</td>
+                <td data-score1="1.5524">1.5524<span class="rank"></span></td>
+                <td data-score2="1.1094">1.1094<span class="rank"></span></td>
+                <td data-score3="4.8000">4.8000<span class="rank"></span></td>
+                <td data-score4="5.0700">5.0700<span class="rank"></span></td>
+            </tr>
+            <tr>
+                <td>SD v2.0</td>
+                <td data-score1="1.5277">1.5277<span class="rank"></span></td>
+                <td data-score2="1.1300">1.1300<span class="rank"></span></td>
+                <td data-score3="4.6400">4.6400<span class="rank"></span></td>
+                <td data-score4="5.0100">5.0100<span class="rank"></span></td>
+            </tr>
+            <tr>
+                <td>Openjourney v2</td>
+                <td data-score1="1.5000">1.5000<span class="rank"></span></td>
+                <td data-score2="0.9956">0.9956<span class="rank"></span></td>
+                <td data-score3="4.1500">4.1500<span class="rank"></span></td>
+                <td data-score4="4.6500">4.6500<span class="rank"></span></td>
+            </tr>
+            <tr>
+                <td>Redshift Diffusion</td>
+                <td data-score1="1.4733">1.4733<span class="rank"></span></td>
+                <td data-score2="1.1382">1.1382<span class="rank"></span></td>
+                <td data-score3="4.3500">4.3500<span class="rank"></span></td>
+                <td data-score4="4.6700">4.6700<span class="rank"></span></td>
+            </tr>
+            <tr>
+                <td>Dreamlike Diffusion v1.0</td>
+                <td data-score1="1.4652">1.4652<span class="rank"></span></td>
+                <td data-score2="1.2052">1.2052<span class="rank"></span></td>
+                <td data-score3="4.6600">4.6600<span class="rank"></span></td>
+                <td data-score4="5.1500">5.1500<span class="rank"></span></td>
+            </tr>
+            <tr>
+                <td>SD v1.5</td>
+                <td data-score1="1.4417">1.4417<span class="rank"></span></td>
+                <td data-score2="1.1362">1.1362<span class="rank"></span></td>
+                <td data-score3="4.4500">4.4500<span class="rank"></span></td>
+                <td data-score4="4.9000">4.9000<span class="rank"></span></td>
+            </tr>
+            <tr>
+                <td>IF-I-XL v1.0</td>
+                <td data-score1="1.3808">1.3808<span class="rank"></span></td>
+                <td data-score2="0.9221">0.9221<span class="rank"></span></td>
+                <td data-score3="5.4500">5.4500<span class="rank"></span></td>
+                <td data-score4="5.5300">5.5300<span class="rank"></span></td>
+            </tr>
+            <tr>
+                <td>SD v1.4</td>
+                <td data-score1="1.3592">1.3592<span class="rank"></span></td>
+                <td data-score2="0.9511">0.9511<span class="rank"></span></td>
+                <td data-score3="4.5200">4.5200<span class="rank"></span></td>
+                <td data-score4="4.7600">4.7600<span class="rank"></span></td>
+            </tr>
+            <tr>
+                <td>Vintedois Diffusion v0.1</td>
+                <td data-score1="1.3562">1.3562<span class="rank"></span></td>
+                <td data-score2="1.0797">1.0797<span class="rank"></span></td>
+                <td data-score3="4.6200">4.6200<span class="rank"></span></td>
+                <td data-score4="4.9500">4.9500<span class="rank"></span></td>
+            </tr>
+            <tr>
+                <td>IF-I-L v1.0</td>
+                <td data-score1="1.2635">1.2635<span class="rank"></span></td>
+                <td data-score2="0.8814">0.8814<span class="rank"></span></td>
+                <td data-score3="5.2300">5.2300<span class="rank"></span></td>
+                <td data-score4="5.4500">5.4500<span class="rank"></span></td>
+            </tr>
+            <tr>
+                <td>MultiFusion</td>
+                <td data-score1="1.2372">1.2372<span class="rank"></span></td>
+                <td data-score2="1.1298">1.1298<span class="rank"></span></td>
+                <td data-score3="4.6800">4.6800<span class="rank"></span></td>
+                <td data-score4="4.8000">4.8000<span class="rank"></span></td>
+            </tr>
+            <tr>
+                <td>IF-I-M v1.0</td>
+                <td data-score1="1.0135">1.0135<span class="rank"></span></td>
+                <td data-score2="0.7928">0.7928<span class="rank"></span></td>
+                <td data-score3="5.0800">5.0800<span class="rank"></span></td>
+                <td data-score4="5.2200">5.2200<span class="rank"></span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="content">
+  <h2>Acknowledgement</h2>
+  The project page template is borrowed from <a href="https://dreambooth.github.io/">DreamBooth</a>.
+</div>
+
+<style>
+/* Leaderboard Styles */
+.leaderboard-table th.sort-asc::after {
+    content: " ▼";
+    color: #fff;
+}
+.leaderboard-table th.sort-desc::after {
+    content: " ▲";
+    color: #fff;
+}
+</style>
+
+<script>
+// Leaderboard Script
+const headers = {
+    name: document.getElementById('name-header'),
+    score1: document.getElementById('faithfulness-human-header'),
+    score2: document.getElementById('faithfulness-evalalign-header'),
+    score3: document.getElementById('alignment-human-header'),
+    score4: document.getElementById('alignment-evalalign-header'),
+};
+
+let sortDirection = { name: null, score1: null, score2: null, score3: null, score4: null };
+
+function updateRanks() {
+    const rows = Array.from(document.querySelectorAll('#leaderboard tbody tr'));
+    ['score1', 'score2', 'score3', 'score4'].forEach(scoreType => {
+        rows.sort((a, b) => {
+            const scoreA = parseFloat(a.querySelector(`[data-${scoreType}]`).dataset[scoreType]);
+            const scoreB = parseFloat(b.querySelector(`[data-${scoreType}]`).dataset[scoreType]);
+            return scoreB - scoreA;
+        }).forEach((row, index) => {
+            row.querySelector(`[data-${scoreType}] .rank`).textContent = `${index + 1}`;
+        });
+    });
+}
+
+function sortTableByScore(scoreType) {
+    const table = document.getElementById('leaderboard');
+    const rows = Array.from(table.querySelectorAll('tbody tr'));
+
+    if (sortDirection[scoreType] === 'asc') {
+        rows.sort((a, b) => {
+            if (scoreType === 'name') {
+                return a.querySelector('td').textContent.localeCompare(b.querySelector('td').textContent);
+            } else {
+                return parseFloat(a.querySelector(`[data-${scoreType}]`).dataset[scoreType]) -
+                       parseFloat(b.querySelector(`[data-${scoreType}]`).dataset[scoreType]);
+            }
+        });
+        sortDirection[scoreType] = 'desc';
+    } else {
+        rows.sort((a, b) => {
+            if (scoreType === 'name') {
+                return b.querySelector('td').textContent.localeCompare(a.querySelector('td').textContent);
+            } else {
+                return parseFloat(b.querySelector(`[data-${scoreType}]`).dataset[scoreType]) -
+                       parseFloat(a.querySelector(`[data-${scoreType}]`).dataset[scoreType]);
+            }
+        });
+        sortDirection[scoreType] = 'asc';
+    }
+
+    table.querySelector('tbody').append(...rows);
+    updateRanks();
+
+    Object.values(headers).forEach(th => th.classList.remove('sort-asc', 'sort-desc'));
+    headers[scoreType].classList.add(`sort-${sortDirection[scoreType]}`);
+}
+
+headers.name.addEventListener('click', () => sortTableByScore('name'));
+headers.score1.addEventListener('click', () => sortTableByScore('score1'));
+headers.score2.addEventListener('click', () => sortTableByScore('score2'));
+headers.score3.addEventListener('click', () => sortTableByScore('score3'));
+headers.score4.addEventListener('click', () => sortTableByScore('score4'));
+
+// Initialize ranks
+updateRanks();
+</script>
+</body>
+</html>
