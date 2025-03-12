@@ -1,0 +1,84 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Cockatiel: Ensembling Synthetic and Human Preferenced Training for Detailed Video Caption</title>
+<link href="./files/style.css" rel="stylesheet">
+<script type="text/javascript" src="./files/jquery.mlens-1.0.min.js"></script> 
+<script type="text/javascript" src="./files/jquery.js"></script>
+</head>
+<style> .centered {text-align: center;}</style>
+
+	
+<body>
+<div class="content">
+  <h1><strong>Cockatiel: Ensembling Synthetic and Human Preferenced Training for Detailed Video Caption</strong></h1>
+  <p id="authors" class="serif">
+    <span style="font-size: 0.9em">
+    <a>Luozheng Qin<sup>1</sup></a>
+    <a>Zhiyu Tan<sup>1,2</sup></a>
+    <a>Mengping Yang</a>
+    <a>Xiaomeng Yang<sup>1</sup></a>
+    <a>Hao Li<sup>1,2&dagger;</sup></a>
+    </span>
+    <br>
+  <span style="font-size: 1.0em; margin-top: 0.6em">
+    <a><sup>1</sup>ShangHai Academy of AI for Science</a>
+    <a><sup>2</sup>Fudan University</a>
+
+  <br>
+  </span>
+<span style="font-size: 12pt;"><b><sup>&dagger;</sup>Corresponding author & Project leader</b></span>
+  </p>
+    <font size="+2">
+          <p style="text-align: center;">
+      <a href="https://sais-fuxi.github.io/projects/cockatiel" target="_blank">[Arxiv]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="https://github.com/Fr0zenCrane/Cockatiel" target="_blank">[Code]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="https://huggingface.co/Fr0zencr4nE/Cockatiel-13B" target="_blank">[Model]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="https://huggingface.co/datasets/Fr0zencr4nE/Cockatiel-4K" target="_blank">[Dataset]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="https://sais-fuxi.github.io/projects/cockatiel" target="_blank">[Page]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="files/bibtex.txt" target="_blank">[BibTeX]</a>
+          </p>
+    </font>
+</div>
+<div class="content">
+  <h2 style="text-align:center;">&#x1F525;News</h2>
+  <p>&#x2705; 2025.03.12 We released the paper, code and project page of Cockatiel.</p>
+  <p>&#x1F525; The annotated dataset and captioenr model weights are still uploading, which should be finished in days.</p>
+</div>
+<div class="content">
+  <h2 style="text-align:center;">Abstract</h2>
+  <img src="./files/teaser.png" class="teaser-gif" style="width:75%;">
+  <p>Video Detailed Captioning (VDC) is a crucial task for vision-language bridging, enabling fine-grained descriptions of complex video content. In this paper, we first comprehensively benchmark current state-of-the-art approaches and systematically identified two critical limitations: biased capability towards specific captioning aspect and misalignment with human preferences. To address these deficiencies, we propose <b>Cockatiel</b>, a novel three-stage training pipeline that ensembles synthetic and human-aligned training for improving VDC performance. In the first stage, we derive a scorer from a meticulously annotated dataset to select synthetic captions high-performing on certain fine-grained video-caption alignment and human-preferred while disregarding others. Then, we train Cockatiel-13B, using this curated dataset to infuse it with assembled model strengths and human preferences. Finally, we further distill Cockatiel-8B from Cockatiel-13B for the ease of usage. Extensive quantitative and qualitative experiments reflect the effectiveness of our method, as we not only set new state-of-the-art performance on VDCSCORE in a dimension-balanced way but also surpass leading alternatives on human preference by a large margin as depicted by the human evaluation results.</p>
+</div>
+<div class="content">
+  <h2>Human-aligned Detailed Video Caption Scorer</h2>
+  <img src="./files/scorer_pipeline.png" class="teaser-gif" style="width:75%;">
+  <p>As illustrated in the above figure. The core of Cockatiel captioner relies on a human-aligned caption scorer, which assess the training value of each candidate synthesized caption from the perspective of dimension-specific video-caption alignment and human preference. In this way, we can avoid the impairment introduced by the synthetic nature of our data and align them with human preferences, eventually bootstrapping model performance on VDC and encouraging the generation of human-preferred captions. However, to the best of our knowledge, no public model nor training dataset currently suits this need, so we have to build it on our own. Specifically, we meticulously annotate a dataset of structured human preference score on video detailed captions and fine-tune VILA-v1.5-13B on it.</p>
+</div>
+<div class="content">
+  <h2>Cockatiel Captioner</h2>
+  <img src="./files/pipeline.png" class="teaser-gif" style="width:75%;"><br>
+  <p>To infuse VDC models with captioning knowledge on every fine-grained dimension of video-caption alignment and human preferences, we devise a three-stage training pipeline to implement the proposed ensembling synthetic and human preferenced training while meet common engineering need. Specifically, we curate data employing the scorer-based selection policy with threshold, which assess the training value of captions generated by three base models, LLaVA-Video-7B, VILA-v1.5-13B, Aria3.5Bx8. Moreover, it scores each candidate caption and exclusively involve the one with the highest score for training if it exceeds the preset threshold. With the abovementioned synthetic data reject sampling procedure, we then train our Cockatiel-13B captioner based on the data, and further distill Cockatiel-8B from Cockatiel-13B. 
+</p>
+
+</div>
+<div class="content">
+  <h2>Results</h2>
+  <p>We provide some specific comparison cases between Cockatiel-13B and leading VDC models in the below figure. For more detailed comparisons or more quantitative and qualitative results, please refer to our paper </p>
+<img src="./files/qualitative.png" class="teaser-gif" style="width:75%;">
+</div>
+<div class="content">
+  <h2>BibTex</h2>
+  <code> @article{tan2024evalalign,<br>
+  &nbsp;&nbsp;title={EvalAlign: Evaluating Text-to-Image Models through Precision Alignment of Multimodal Large Models with Supervised Fine-Tuning to Human Annotations},<br>
+  &nbsp;&nbsp;author={Tan, Zhiyu and Yang, Xiaomeng and Qin, Luozheng and Yang, Mengping and Zhang, Cheng and Li, Hao},<br>
+  &nbsp;&nbsp;journal={arXiv preprint arXiv:2406.16562},<br>
+  &nbsp;&nbsp;year={2024}<br>
+  } </code> 
+</div>
+<div class="content">
+  <h2>Acknowledgement</h2>
+  The project page template is borrowed from <a href="https://dreambooth.github.io/">DreamBooth</a>.
+</div>
+</body>
+</html>
