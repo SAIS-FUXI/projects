@@ -44,33 +44,24 @@
 <div class="content">
   <h2 style="text-align:center;">&#x1F525;News</h2>
   <p>&#x2705; 2025.07.29 We released UniCoT-7B-MoT, which extends Bagel-7B-MoT model to perform text-to-image generation witn self-reflection reasoning mechanism.</p>
-  <p>&#x1F525; We are still working on the remaining content listed in our roadmap, please stay tuned!</p>
+  <p>&#x1F525; We are still working on the this project to implement more kinds of Chain-of-Thought (CoT) mechanism into unified model, please stay tuned!</p>
 </div>
 
 <div class="content">
-  <h2 style="text-align:center;">&#x1F525;Roadmap</h2>
-  <h3> 🧠 Reasoning Framework</h3>
-  <p>✅ Release self-check mechanism</p>
-  <p>[ ] Rlease planning and subtask execution mechanism</p>
-  <p>[ ] Develop more fine-grained reasoning strategies</p>
-  <h3>🤖 Training Framework</h3>
-  <p>Provide SFT (Supervised Fine-Tuning) framework for multimodal reasoning </p>
-  <p>[ ] Provide SFT (Supervised Fine-Tuning) framework for multimodal reasoning</p>
-  <p>[ ] Provide RL (Reinforcement Learning) framework for multimodal reasoning </p>
-  <h3>📊 Evaluation & Benchmarking</h3>
-  <p>✅ Evaluate Uni-CoT on a reasoning-based text-to-image generation benchmark [WISE](https://github.com/PKU-YuanGroup/WISE)  </p>
-  <p>[ ] Evaluate Uni-CoT on a reasoning-based editing benchmark  </p>
-  <p>[ ] Evaluate Uni-CoT on a reasoning-based understanding benchmark</p>
-</div>
+  <h2 style="text-align:center;">Overview</h2>
+  <img src="./files/pipeline.png" class="teaser-gif" style="width:75%;">
 
-
-
-
-
-<div class="content">
-  <h2 style="text-align:center;">Abstract</h2>
-  <img src="./files/teaser.png" class="teaser-gif" style="width:75%;">
-  <p>Video Detailed Captioning (VDC) is a crucial task for vision-language bridging, enabling fine-grained descriptions of complex video content. In this paper, we first comprehensively benchmark current state-of-the-art approaches and systematically identified two critical limitations: biased capability towards specific captioning aspect and misalignment with human preferences. To address these deficiencies, we propose <b>Cockatiel</b>, a novel three-stage training pipeline that ensembles synthetic and human-aligned training for improving VDC performance. In the first stage, we derive a scorer from a meticulously annotated dataset to select synthetic captions high-performing on certain fine-grained video-caption alignment and human-preferred while disregarding others. Then, we train Cockatiel-13B, using this curated dataset to infuse it with assembled model strengths and human preferences. Finally, we further distill Cockatiel-8B from Cockatiel-13B for the ease of usage. Extensive quantitative and qualitative experiments reflect the effectiveness of our method, as we not only set new state-of-the-art performance on VDCSCORE in a dimension-balanced way but also surpass leading alternatives on human preference by a large margin as depicted by the human evaluation results.</p>
+  <p>Chain-of-Thought (CoT) reasoning has significantly enhanced LLM performance on complex text tasks by encouraging interpretable, step-by-step problem solving. However, extending this paradigm to multimodal tasks presents new challenges. In vision-language scenarios, human cognition depends on understanding how visual states evolve over time, inferring causality and planning based on object movements, spatial interactions, and transformations, which are critical for physical reasoning, visual planning, and story comprehension.</p>
+  <p>To bridge this gap, we introduce the Unified Chain-of-Thought (Uni-CoT) framework, designed to empower Multimodal Large Language Models (MLLMs) to perform structured and interpretable reasoning across both text and vision. Uni-CoT first decomposes a given multimodal task into simple, modular steps, and then processes each step either sequentially or in parallel, as illustrated below. Thus, it enables more systematic and scalable reasoning across modalities.</p>
+  <p>Specifically, the Uni-CoT reasoning pipeline consists of four key components:</p>
+  <p>1. <b>Planning</b>: Decompose the complex task into a sequence of simpler, manageable subtasks.</p>
+  <p>2. <b>Subtask Execution</b>: Execute each subtask using the unified model with step-by-step reasoning.</p>
+  <p>3. <b>Self-Check</b>: After completing each subtask, perform a validation check to ensure the intermediate result aligns with the intended goal.</p>
+  <p>4. <b>Final Result</b>: Aggregate the validated subtask results to generate the final output.</p>
+  <p>With these designs, our Uni-CoT framework aims to enable unified large models to tackle a wide range of challenging multimodal applications, including: </p>
+  <p>Highly reliable image generation/editing</p>
+  <p>Visual planning</p>
+  <p>Geometric and physical reasoning</p>
 </div>
 <div class="content">
   <h2>Human-aligned Detailed Video Caption Scorer</h2>
