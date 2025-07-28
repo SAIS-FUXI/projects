@@ -5,6 +5,10 @@
 <link href="./files/style.css" rel="stylesheet">
 <script type="text/javascript" src="./files/jquery.mlens-1.0.min.js"></script> 
 <script type="text/javascript" src="./files/jquery.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <style> .centered {text-align: center;}</style>
 
@@ -49,7 +53,7 @@
 
 <div class="content">
   <h2 style="text-align:center;">Overview</h2>
-  <img src="./files/pipeline.png" class="teaser-gif" style="width:75%;">
+  <img src="./files/pipeline.png" class="teaser-gif" style="width:90%;">
 
   <p>Chain-of-Thought (CoT) reasoning has significantly enhanced LLM performance on complex text tasks by encouraging interpretable, step-by-step problem solving. However, extending this paradigm to multimodal tasks presents new challenges. In vision-language scenarios, human cognition depends on understanding how visual states evolve over time, inferring causality and planning based on object movements, spatial interactions, and transformations, which are critical for physical reasoning, visual planning, and story comprehension.</p>
   <p>To bridge this gap, we introduce the Unified Chain-of-Thought (Uni-CoT) framework, designed to empower Multimodal Large Language Models (MLLMs) to perform structured and interpretable reasoning across both text and vision. Uni-CoT first decomposes a given multimodal task into simple, modular steps, and then processes each step either sequentially or in parallel, as illustrated below. Thus, it enables more systematic and scalable reasoning across modalities.</p>
@@ -58,22 +62,27 @@
   <p>2. <b>Subtask Execution</b>: Execute each subtask using the unified model with step-by-step reasoning.</p>
   <p>3. <b>Self-Check</b>: After completing each subtask, perform a validation check to ensure the intermediate result aligns with the intended goal.</p>
   <p>4. <b>Final Result</b>: Aggregate the validated subtask results to generate the final output.</p>
-  <p>With these designs, our Uni-CoT framework aims to enable unified large models to tackle a wide range of challenging multimodal applications, including: </p>
-  <p>Highly reliable image generation/editing</p>
-  <p>Visual planning</p>
-  <p>Geometric and physical reasoning</p>
+  <p>With these designs, our Uni-CoT framework aims to enable unified large models to tackle a wide range of challenging multimodal applications, including: <b>Highly reliable image generation/editing; Visual planning; Geometric and physical reasoning</b></p>
 </div>
 <div class="content">
-  <h2>Human-aligned Detailed Video Caption Scorer</h2>
-  <img src="./files/scorer_pipeline.png" class="teaser-gif" style="width:75%;">
-  <p>As illustrated in the above figure. The core of Cockatiel captioner relies on a human-aligned caption scorer, which assess the training value of each candidate synthesized caption from the perspective of dimension-specific video-caption alignment and human preference. In this way, we can avoid the impairment introduced by the synthetic nature of our data and align them with human preferences, eventually bootstrapping model performance on VDC and encouraging the generation of human-preferred captions. However, to the best of our knowledge, no public model nor training dataset currently suits this need, so we have to build it on our own. Specifically, we meticulously annotate a dataset of structured human preference score on video detailed captions and fine-tune VILA-v1.5-13B on it.</p>
+  <h2>Motivation</h2>
+  <p>A major challenge in Uni-CoT learning is the heightened complexity introduced by visual reasoning. Each reasoning step involves not only generating explanatory text but also synthesizing a corresponding image. Producing a high-quality image via VAE consumes approximately 4,096 tokens, with an additional 4,900 tokens required for ViT-based representation, totaling nearly 9,000 tokens per step. This is a significant increase compared to the 512–1,024 tokens typically needed for text-only reasoning, substantially raising the cost of both training and inference. Consequently, when the reasoning chain grows with multiple image-text pairs, the model struggles to converge and generalize effectively, limiting its performance on multimodal tasks.</p>
+  <img src="./files/motivation.png" class="teaser-gif" style="width:90%;">
+  <p>To mitigate the complexity introduced by long multimodal reasoning chains, we reformulate the Uni-CoT process as a Markov Decision Process (MDP), where each step depends solely on the current state. Concretely, we model each reasoning step as a discrete MDP node, which only depends on the preceding step and the task instruction. This formulation enables the model to focus on learning local transition dynamics between adjacent nodes, rather than capturing dependencies across the entire reasoning chain as shown below. Such a design choice significantly reduces computational overhead and improves training efficiency.</p>
+  <img src="./files/mdp_process.png" class="teaser-gif" style="width:90%;">
 </div>
 <div class="content">
-  <h2>Cockatiel Captioner</h2>
-  <img src="./files/pipeline.png" class="teaser-gif" style="width:75%;"><br>
-  <p>To infuse VDC models with captioning knowledge on every fine-grained dimension of video-caption alignment and human preferences, we devise a three-stage training pipeline to implement the proposed ensembling synthetic and human preferenced training while meet common engineering need. Specifically, we curate data employing the scorer-based selection policy with threshold, which assess the training value of captions generated by three base models, LLaVA-Video-7B, VILA-v1.5-13B, Aria3.5Bx8. Moreover, it scores each candidate caption and exclusively involve the one with the highest score for training if it exceeds the preset threshold. With the abovementioned synthetic data reject sampling procedure, we then train our Cockatiel-13B captioner based on the data, and further distill Cockatiel-8B from Cockatiel-13B. 
-</p>
-
+  <h2>Uni-CoT MDP Node Design</h2>
+  <figure>
+    <img src="./files/mdp_architecture.png" class="teaser-gif" style="width:90%;">
+    <figcaption>Uni-CoT components that requires loss during training are highlighted in pink.</figcaption>
+</figure>
+  <p>Each MDP node is defined by the following components:</p>
+  <p><b>State \(s_t\)</b>: Current context, refer to last reasoning step, including both text and images.</p>
+  <p><b>Action \(a_t\)</b>: A hybrid operation that involves generating editing instructions and performing corresponding image edits.</p>
+  <p><b>Next State \(s_{t+1}\)</b>: The updated context resulting from the applied action, including the edited image, a textual summary according to the edited image.</p>
+  <p><b>Reward \(r_t\)</b>: A textual conclusion or scalar score that quantifies the alignment between the outcome and the task objective.
+  </p>
 </div>
 <div class="content">
   <h2>Results</h2>
