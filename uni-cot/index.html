@@ -18,14 +18,14 @@
   <h1><strong>Uni-CoT: Towards Unified Chain-of-Thought Reasoning Across Text and Vision</strong></h1>
   <p id="authors" class="serif">
     <span style="font-size: 0.9em">
-    <a>Luozheng Qin<sup>1*</sup></a>
-    <a>Jia Gong<sup>1*</sup></a>
-    <a>Yuqing Sun<sup>1*</sup></a>
-    <a>Tianjiao Li<sup>3</sup></a>
-    <a>Mengping Yang<sup>1</sup></a>
-    <a>Xiaomeng Yang<sup>1</sup></a>
-    <a>Zhiyu Tan<sup>1,2#</sup></a>
-    <a>Hao Li<sup>1,2&dagger;</sup></a>
+      <a href="https://scholar.google.com/citations?user=41BWCzkAAAAJ&hl=zh-CN&oi=ao">Luozheng Qin</a><sup>1</sup><sup>*</sup>,
+      <a href="https://scholar.google.com/citations?user=ZV-ThegAAAAJ&hl=zh-CN&oi=ao">Jia Gong</a><sup>1</sup><sup>*</sup>,
+      <a href="#">Yuqing Sun</a><sup>1</sup><sup>*</sup>,
+      <a href="https://scholar.google.com/citations?hl=zh-CN&user=so6xMg8AAAAJ">Tianjiao Li</a><sup>3</sup>,
+      <a href="https://scholar.google.com/citations?user=yF34LtcAAAAJ&hl=zh-CN&oi=ao">Mengping Yang</a><sup>1</sup>,
+      <a href="https://scholar.google.com/citations?hl=zh-CN&user=7evPWQYAAAAJ">Xiaomeng Yang</a><sup>1</sup>,
+      <a href="https://scholar.google.com/citations?user=XprTQQ8AAAAJ&hl=en">Zhiyu Tan</a><sup>1,2</sup><sup>+</sup>,
+      <a href="https://scholar.google.com/citations?user=pHN-QIwAAAAJ&hl=zh-CN">Hao Li</a><sup>1,2</sup><sup>#</sup>
     </span>
     <br>
   <span style="font-size: 1.0em; margin-top: 0.6em">
@@ -53,7 +53,7 @@
 
 <div class="content">
   <h2 style="text-align:center;">Overview</h2>
-  <img src="./files/pipeline.png" class="teaser-gif" style="width:90%;">
+  <img src="./files/pipeline.png" class="teaser-gif" style="width:100%;">
 
   <p>Chain-of-Thought (CoT) reasoning has significantly enhanced LLM performance on complex text tasks by encouraging interpretable, step-by-step problem solving. However, extending this paradigm to multimodal tasks presents new challenges. In vision-language scenarios, human cognition depends on understanding how visual states evolve over time, inferring causality and planning based on object movements, spatial interactions, and transformations, which are critical for physical reasoning, visual planning, and story comprehension.</p>
   <p>To bridge this gap, we introduce the Unified Chain-of-Thought (Uni-CoT) framework, designed to empower Multimodal Large Language Models (MLLMs) to perform structured and interpretable reasoning across both text and vision. Uni-CoT first decomposes a given multimodal task into simple, modular steps, and then processes each step either sequentially or in parallel, as illustrated below. Thus, it enables more systematic and scalable reasoning across modalities.</p>
@@ -67,14 +67,14 @@
 <div class="content">
   <h2>Motivation</h2>
   <p>A major challenge in Uni-CoT learning is the heightened complexity introduced by visual reasoning. Each reasoning step involves not only generating explanatory text but also synthesizing a corresponding image. Producing a high-quality image via VAE consumes approximately 4,096 tokens, with an additional 4,900 tokens required for ViT-based representation, totaling nearly 9,000 tokens per step. This is a significant increase compared to the 512–1,024 tokens typically needed for text-only reasoning, substantially raising the cost of both training and inference. Consequently, when the reasoning chain grows with multiple image-text pairs, the model struggles to converge and generalize effectively, limiting its performance on multimodal tasks.</p>
-  <img src="./files/motivation.png" class="teaser-gif" style="width:90%;">
+  <img src="./files/motivation.png" class="teaser-gif" style="width:75%;">
   <p>To mitigate the complexity introduced by long multimodal reasoning chains, we reformulate the Uni-CoT process as a Markov Decision Process (MDP), where each step depends solely on the current state. Concretely, we model each reasoning step as a discrete MDP node, which only depends on the preceding step and the task instruction. This formulation enables the model to focus on learning local transition dynamics between adjacent nodes, rather than capturing dependencies across the entire reasoning chain as shown below. Such a design choice significantly reduces computational overhead and improves training efficiency.</p>
-  <img src="./files/mdp_process.png" class="teaser-gif" style="width:90%;">
+  <img src="./files/mdp_process.png" class="teaser-gif" style="width:75%;">
 </div>
 <div class="content">
   <h2>Uni-CoT MDP Node Design</h2>
   <figure>
-    <img src="./files/mdp_architecture.png" class="teaser-gif" style="width:90%;">
+    <img src="./files/mdp_architecture.png" class="teaser-gif" style="width:75%;">
     <figcaption>Uni-CoT components that requires loss during training are highlighted in pink.</figcaption>
 </figure>
   <p>Each MDP node is defined by the following components:</p>
