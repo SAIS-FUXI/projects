@@ -17,7 +17,7 @@
 <div class="content">
   <h1><strong>Uni-CoT: Towards Unified Chain-of-Thought Reasoning Across Text and Vision</strong></h1>
   <p id="authors" class="serif">
-    <span style="font-size: 0.9em">
+    <span style="text-align: justify; font-size: 0.9em">
       <a href="https://scholar.google.com/citations?user=41BWCzkAAAAJ&hl=zh-CN&oi=ao">Luozheng Qin</a><sup>1</sup><sup>*</sup>,
       <a href="https://scholar.google.com/citations?user=ZV-ThegAAAAJ&hl=zh-CN&oi=ao">Jia Gong</a><sup>1</sup><sup>*</sup>,
       <a href="#">Yuqing Sun</a><sup>1</sup><sup>*</sup>,
@@ -73,7 +73,7 @@
   <img src="./files/mdp_process.png" class="teaser-gif" style="width:75%;">
 </div>
 <div class="content">
-  <h2>Uni-CoT MDP Node Design</h2>
+  <h2>Uni-CoT Training Based on MDP Node</h2>
   <figure>
     <img src="./files/mdp_architecture.png" class="teaser-gif" style="width:75%;">
     <figcaption>Uni-CoT components that requires loss during training are highlighted in pink.</figcaption>
@@ -82,24 +82,76 @@
   <p><b>State \(s_t\)</b>: Current context, refer to last reasoning step, including both text and images.</p>
   <p><b>Action \(a_t\)</b>: A hybrid operation that involves generating editing instructions and performing corresponding image edits.</p>
   <p><b>Next State \(s_{t+1}\)</b>: The updated context resulting from the applied action, including the edited image, a textual summary according to the edited image.</p>
-  <p><b>Reward \(r_t\)</b>: A textual conclusion or scalar score that quantifies the alignment between the outcome and the task objective.
-  </p>
+  <p><b>Reward \(r_t\)</b>: A textual conclusion or scalar score that quantifies the alignment between the outcome and the task objective.</p>
+  <p>With above design, our training focuses on three core objectives:</p>
+  <p>Learning to generate <b>hybrid actions</b>*(text and image edits) that drive reasoning progression.</p>
+  <p>Predicting the <b>next state summary</b> given the current state and action.</p>
+  <p>Estimating <b>reward</b> that reflect task completion and reasoning quality.</p>
 </div>
 <div class="content">
-  <h2>Results</h2>
-  <p>We provide some specific comparison cases between Cockatiel-13B and leading VDC models in the below figure. For more detailed comparisons or more quantitative and qualitative results, please refer to our paper </p>
-<img src="./files/qualitative.png" class="teaser-gif" style="width:75%;">
+  <h2>Case Study</h2>
+  <img src="./files/qualitative_results.png" class="teaser-gif" style="width:50%;">
+</div>
+<div class="content">
+  <h2>Quantitative Results</h2>
+  <p>We compare the proposed MDP-based Uni-CoT (Uni-CoT-MDP) against the traditional long-chain Uni-CoT reasoning baseline (Uni-CoT-LC). Both models are trained for 6,000 steps on a dataset of approximately 10,000 samples. Evaluation is conducted on the WISE benchmark, which is specifically designed to assess the reasoning capabilities of Multimodal Large Language Models (MLLMs). As shown below, the MDP-based formulation consistently outperforms the long-chain baseline across all metrics, demonstrating its superior learning efficiency and output quality.</p>
+
+  <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%; font-family: Arial, sans-serif; margin: 20px 0;">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Culture↑</th>
+        <th>Time↑</th>
+        <th>Space↑</th>
+        <th>Biology↑</th>
+        <th>Physics↑</th>
+        <th>Chemistry↑</th>
+        <th>Overall↑</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Bagel (base)</strong></td>
+        <td><strong>0.76</strong></td>
+        <td><strong>0.69</strong></td>
+        <td><u>0.75</u></td>
+        <td><u>0.65</u></td>
+        <td><u>0.75</u></td>
+        <td>0.58</td>
+        <td><u>0.70</u></td>
+      </tr>
+      <tr>
+        <td>Uni-CoT-LC</td>
+        <td>0.73</td>
+        <td><u>0.67</u></td>
+        <td><u>0.75</u></td>
+        <td>0.60</td>
+        <td><u>0.75</u></td>
+        <td><u>0.65</u></td>
+        <td><u>0.70</u></td>
+      </tr>
+      <tr>
+        <td><strong>Uni-CoT-MDP</strong></td>
+        <td><u>0.75</u></td>
+        <td>0.66</td>
+        <td><strong>0.78</strong></td>
+        <td><strong>0.70</strong></td>
+        <td><strong>0.78</strong></td>
+        <td><strong>0.71</strong></td>
+        <td><strong>0.73</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
 </div>
 <div class="content">
   <h2>BibTex</h2>
-  <code> @misc{qin2025cockatielensemblingsynthetichuman,<br>
-  &nbsp;&nbsp;title={Cockatiel: Ensembling Synthetic and Human Preferenced Training for Detailed Video Caption},<br>
-  &nbsp;&nbsp; author={Luozheng Qin and Zhiyu Tan and Mengping Yang and Xiaomeng Yang and Hao Li},<br>
-  &nbsp;&nbsp;year={2025},<br>
-  &nbsp;&nbsp;eprint={2503.09279},<br>
-  &nbsp;&nbsp;archivePrefix={arXiv},<br>
-  &nbsp;&nbsp;primaryClass={cs.CV},<br>
-  &nbsp;&nbsp;url={https://arxiv.org/abs/2503.09279}, <br>
+  <code> @misc{Uni-CoT,<br>
+  &nbsp;&nbsp; author       = {SAIS-FUXI},<br>
+  &nbsp;&nbsp; title        = {Uni-CoT: Towards Unified Chain-of-Thought Reasoning Across Text and Vision},<br>
+  &nbsp;&nbsp;howpublished = {\url{https://github.com/Fr0zenCrane/BagelCoT}},<br>
+  &nbsp;&nbsp;year         = {2025},<br>
+  &nbsp;&nbsp;note         = {Accessed: 2025-07-28}<br>
   } </code> 
 </div>
 <div class="content">
