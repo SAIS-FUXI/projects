@@ -70,12 +70,12 @@
   <p>A major challenge in Uni-CoT learning is the heightened complexity introduced by visual reasoning. Each reasoning step involves not only generating explanatory text but also synthesizing a corresponding image. Producing a high-quality image via VAE consumes approximately 4,096 tokens, with an additional 4,900 tokens required for ViT-based representation, totaling nearly 9,000 tokens per step. This is a significant increase compared to the 512–1,024 tokens typically needed for text-only reasoning, substantially raising the cost of both training and inference. Consequently, when the reasoning chain grows with multiple image-text pairs, the model struggles to converge and generalize effectively, limiting its performance on multimodal tasks.</p>
   <img src="./files/motivation.png" class="teaser-gif" style="width:75%;">
   <p>To mitigate the complexity introduced by long multimodal reasoning chains, we reformulate the Uni-CoT process as a Markov Decision Process (MDP), where each step depends solely on the current state. Concretely, we model each reasoning step as a discrete MDP node, which only depends on the preceding step and the task instruction. This formulation enables the model to focus on learning local transition dynamics between adjacent nodes, rather than capturing dependencies across the entire reasoning chain as shown below. Such a design choice significantly reduces computational overhead and improves training efficiency.</p>
-  <img src="./files/mdp_process.png" class="teaser-gif" style="width:75%;">
+  <img src="./files/mdp_process.png" class="teaser-gif" style="width:60%;">
 </div>
 <div class="content">
   <h2>Uni-CoT Training Based on MDP Node</h2>
   <figure>
-    <img src="./files/mdp_architecture.png" class="teaser-gif" style="width:75%;">
+    <img src="./files/mdp_architecture.png" class="teaser-gif" style="width:60%;">
     <figcaption>Uni-CoT components that requires loss during training are highlighted in pink.</figcaption>
 </figure>
   <p>Each MDP node is defined by the following components:</p>
@@ -90,7 +90,7 @@
 </div>
 <div class="content">
   <h2>Case Study</h2>
-  <img src="./files/qualitative_results.png" class="teaser-gif" style="width:50%;">
+  <img src="./files/qualitative_results.png" class="teaser-gif" style="width:75%;">
 </div>
 <div class="content">
   <h2>Quantitative Results</h2>
