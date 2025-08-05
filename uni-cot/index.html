@@ -68,7 +68,7 @@
   <p>Specifically, the Uni-CoT reasoning pipeline consists of four key components:</p>
   <p>&nbsp;&nbsp;&nbsp;1. <b>Planning</b>: Decompose the complex task into a sequence of simpler, manageable subtasks.</p>
   <p>&nbsp;&nbsp;&nbsp;2. <b>Subtask Execution</b>: Execute each subtask using the unified model with step-by-step reasoning.</p>
-  <p>&nbsp;&nbsp;&nbsp;3. <b>Self-Check</b>: After completing each subtask, perform a validation check to ensure the intermediate result aligns with the intended subgoal.</p>
+  <p>&nbsp;&nbsp;&nbsp;3. <b>Self-Check</b>: After completing each subtask, perform a validation check to ensure the intermediate result aligns with the intended sub-goal.</p>
   <p>&nbsp;&nbsp;&nbsp;4. <b>Final Result</b>: Aggregate the validated subtask results to generate the final output.</p>
   <p>With these designs, our Uni-CoT framework aims to enable unified large models to tackle a wide range of challenging multimodal applications, including: </p>
   <p>&nbsp;&nbsp;&nbsp;1. <b>Highly reliable image generation/editing; </b></p>
@@ -160,7 +160,7 @@
   <h3>Our Solution</h3>
   <p>To mitigate the complexity introduced by long multimodal reasoning chains, we reformulate the Uni-CoT process as a Markov Decision Process (MDP), where each step depends solely on the current state. Concretely, we model each reasoning step as a discrete MDP node, which only depends on the preceding step and the task instruction. This formulation enables the model to focus on learning local transition dynamics between adjacent nodes, rather than capturing dependencies across the entire reasoning chain as shown below. Such a design choice significantly reduces computational overhead and improves training efficiency.</p>
   <img src="./files/mdp_process.png" class="teaser-gif" style="width:60%;">
-  <p>Sepecifically, each MDP node is defined by the following components:</p>
+  <p>Specifically, each MDP node is defined by the following components:</p>
   <p><b>&nbsp;&nbsp;&nbsp;State \(s_t\)</b>: Current context, refer to last reasoning step, including both text and images.</p>
   <p><b>&nbsp;&nbsp;&nbsp;Action \(a_t\)</b>: A hybrid operation that involves generating editing instructions and performing corresponding image edits.</p>
   <p><b>&nbsp;&nbsp;&nbsp;Next State \(s_{t+1}\)</b>: The updated context resulting from the applied action, including the edited image, a textual summary according to the edited image.</p>
