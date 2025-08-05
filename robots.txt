@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sais-fuxi.github.io/projects/uni-cot/sitemap.xml
