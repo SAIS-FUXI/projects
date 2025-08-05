@@ -18,7 +18,7 @@ jobs:
         id: sm
         uses: cicirello/generate-sitemap@v1
         with:
-          path-to-root: projects/uni-cot
+          path-to-root: uni-cot
           base-url-path: https://sais-fuxi.github.io/projects/uni-cot/
 
       - name: Summary
