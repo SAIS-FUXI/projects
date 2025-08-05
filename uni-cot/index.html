@@ -160,7 +160,7 @@
 <body>
 <div class="content">
   <figure style="text-align: center;">
-    <img src="./files/logo.png" class="teaser-gif" style="width:40%;">
+    <img src="./files/logo.png" alt="Uni-CoT Logo" class="teaser-gif" style="width:40%;">
   </figure>
   <h1><strong>Uni-CoT: Towards Unified Chain-of-Thought Reasoning Across Text and Vision</strong></h1>
   <p id="authors" class="serif">
@@ -204,7 +204,7 @@
 
 <div class="content">
   <h2 style="text-align:center;">Overview</h2>
-  <img src="./files/pipeline.png" class="teaser-gif" style="width:100%;">
+  <img src="./files/pipeline.png" alt="Uni-CoT Pipeline" class="teaser-gif" style="width:100%;">
 
   <p>Chain-of-Thought (CoT) reasoning has significantly enhanced LLM performance on complex text tasks by encouraging interpretable, step-by-step problem solving. However, extending this paradigm to multimodal tasks presents new challenges. In vision-language scenarios, human cognition depends on understanding how visual states evolve over time, inferring causality and planning based on object movements, spatial interactions, and transformations, which are critical for physical reasoning, visual planning, and story comprehension.</p>
   <p>To bridge this gap, we introduce the Unified Chain-of-Thought (Uni-CoT) framework, designed to empower Multimodal Large Language Models (MLLMs) to perform structured and interpretable reasoning across both text and vision. Uni-CoT first decomposes a given multimodal task into simple, modular steps, and then processes each step either sequentially or in parallel, as illustrated below. Thus, it enables more systematic and scalable reasoning across modalities.</p>
@@ -223,7 +223,7 @@
   <h2 style="text-align:center;">Results</h2>
   With our Uni-CoT design, currently we have achieve reliable image generation across various scenarios, moreover achieving sota performance on <a href="https://github.com/Fr0zenCrane/UniCoT" target="_blank">[WISE]</a> benchmark.
   <h3>Qualitative Results</h3>
-  <img src="./files/qualitative_results.png" class="teaser-gif" style="width:75%;">
+  <img src="./files/qualitative_results.png" alt="Qualitative Results" class="teaser-gif" style="width:75%;">
   <h3>Quantitative Results</h3>
   <h3 style="text-align:center;">WISE</h3>
   <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%; font-family: Arial, sans-serif; margin: 20px 0;">
@@ -299,17 +299,17 @@
   <h3>Key Observation</h3>
   <p>We adapt the unified Bagel-7B-MoT model to perform joint text and image generation in support of UniCoT-style multimodal reasoning. As a first step, we fine-tune the model using its native interleaved text-image training paradigm. While this naïve adaptation enables the model to learn basic UniCoT behaviors, we observe significant challenges when scaling to complex reasoning chains involving multiple image-text steps. </p>
   <p>A primary bottleneck lies in the elevated complexity introduced by visual reasoning. Unlike text-only reasoning, where each step typically consumes 512–1,024 tokens, UniCoT requires generating both a reasoning text and a corresponding image per step. Synthesising Image via VAE-based representation consumes ~4,096 tokens, and encoding the image with a ViT-based representation for understanding incurs an additional ~4,900 tokens, resulting in nearly 9,000 tokens per reasoning step. This substantial overhead significantly increases the computational cost of training and inference. As the reasoning chain grows, the model struggles to converge and generalize, ultimately limiting its performance on complex multimodal tasks.</p>
-  <img src="./files/motivation.png" class="teaser-gif" style="width:75%;">
+  <img src="./files/motivation.png" alt="Motivation" class="teaser-gif" style="width:75%;">
   <h3>Our Solution</h3>
   <p>To mitigate the complexity introduced by long multimodal reasoning chains, we reformulate the Uni-CoT process as a Markov Decision Process (MDP), where each step depends solely on the current state. Concretely, we model each reasoning step as a discrete MDP node, which only depends on the preceding step and the task instruction. This formulation enables the model to focus on learning local transition dynamics between adjacent nodes, rather than capturing dependencies across the entire reasoning chain as shown below. Such a design choice significantly reduces computational overhead and improves training efficiency.</p>
-  <img src="./files/mdp_process.png" class="teaser-gif" style="width:60%;">
+  <img src="./files/mdp_process.png" alt="MDP Process" class="teaser-gif" style="width:60%;">
   <p>Specifically, each MDP node is defined by the following components:</p>
   <p><b>&nbsp;&nbsp;&nbsp;State \(s_t\)</b>: Current context, refer to last reasoning step, including both text and images.</p>
   <p><b>&nbsp;&nbsp;&nbsp;Action \(a_t\)</b>: A hybrid operation that involves generating editing instructions and performing corresponding image edits.</p>
   <p><b>&nbsp;&nbsp;&nbsp;Next State \(s_{t+1}\)</b>: The updated context resulting from the applied action, including the edited image, a textual summary according to the edited image.</p>
   <p><b>&nbsp;&nbsp;&nbsp;Reward \(r_t\)</b>: A textual conclusion or scalar score that quantifies the alignment between the outcome and the task objective.</p>
   <figure style="text-align: center;">
-    <img src="./files/mdp_architecture.png" class="teaser-gif" style="width:60%;">
+    <img src="./files/mdp_architecture.png" alt="MDP Architecture" class="teaser-gif" style="width:60%;">
     <figcaption>Uni-CoT components that requires loss during training are highlighted in pink.</figcaption>
   </figure>
   <p>With above design, our training focuses on three core objectives:</p>
