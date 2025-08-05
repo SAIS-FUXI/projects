@@ -2,7 +2,7 @@ name: Generate sitemap for uni-cot
 
 on:
   push:
-    branches: [ main, dev_seo]
+    branches: [ main ]
   workflow_dispatch:
 
 permissions:
