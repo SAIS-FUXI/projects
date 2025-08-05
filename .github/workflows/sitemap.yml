@@ -5,6 +5,9 @@ on:
     branches: [ main, dev_seo]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   sitemap:
     runs-on: ubuntu-latest
