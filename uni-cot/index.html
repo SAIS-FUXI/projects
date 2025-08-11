@@ -167,7 +167,7 @@
     <span style="text-align: justify; font-size: 0.9em">
       <a href="https://scholar.google.com/citations?user=41BWCzkAAAAJ&hl=zh-CN&oi=ao">Luozheng Qin</a><sup>1</sup><sup>*</sup>,
       <a href="https://scholar.google.com/citations?user=ZV-ThegAAAAJ&hl=zh-CN&oi=ao">Jia Gong</a><sup>1</sup><sup>*</sup>,
-      <a href="https://github.com/sunyuqingannie">Yuqing Sun</a><sup>1</sup><sup>*</sup>,
+      <a href="https://scholar.google.com/citations?hl=zh-CN&user=zR6eHu0AAAAJ">Yuqing Sun</a><sup>1</sup><sup>*</sup>,
       <a href="https://scholar.google.com/citations?hl=zh-CN&user=so6xMg8AAAAJ">Tianjiao Li</a><sup>3</sup>,
       <br>
       <a href="https://scholar.google.com/citations?user=yF34LtcAAAAJ&hl=zh-CN&oi=ao">Mengping Yang</a><sup>1</sup>,
@@ -198,34 +198,36 @@
 
 <div class="content">
   <h2 style="text-align:center;">&#x1F525;News</h2>
-  <p>&#x2705; 2025.07.29 We released UniCoT-7B-MoT, which extends Bagel-7B-MoT model to perform text-to-image generation with self-check (self-reflection) reasoning mechanism.</p>
+  <p>&#x2705; 2025.07.29 We released UniCoT-7B-MoT, which extends Bagel-7B-MoT model to perform text-to-image generation with self-reflection reasoning mechanism.</p>
   <p>&#x2705; 2025.08.08 We released UniCoT v0.1 technical report on Arxiv and Github repository. </a></p>
   <p>&#x1F525; We are still working on the this project to implement more kinds of Chain-of-Thought (CoT) mechanism into unified model, please stay tuned!</p>
 </div>
 
 <div class="content">
   <h2 style="text-align:center;">Overview</h2>
-  <img src="./files/pipeline.png" alt="Uni-CoT Pipeline" class="teaser-gif" style="width:100%;">
+  <img src="./files/teaser.png" alt="Uni-CoT Pipeline" class="teaser-gif" style="width:100%;">
 
-  <p>Chain-of-Thought (CoT) reasoning has significantly enhanced LLM performance on complex text tasks by encouraging interpretable, step-by-step problem solving. However, extending this paradigm to multimodal tasks presents new challenges. In vision-language scenarios, human cognition depends on understanding how visual states evolve over time, inferring causality and planning based on object movements, spatial interactions, and transformations, which are critical for physical reasoning, visual planning, and story comprehension.</p>
-  <p>To bridge this gap, we introduce the Unified Chain-of-Thought (Uni-CoT) framework, designed to empower Multimodal Large Language Models (MLLMs) to perform structured and interpretable reasoning across both text and vision. Uni-CoT first decomposes a given multimodal task into simple, modular steps, and then processes each step either sequentially or in parallel, as illustrated below. Thus, it enables more systematic and scalable reasoning across modalities.</p>
-  <p>Specifically, the Uni-CoT reasoning pipeline consists of four key components:</p>
-  <p>&nbsp;&nbsp;&nbsp;1. <b>Planning</b>: Decompose the complex task into a sequence of simpler, manageable subtasks.</p>
-  <p>&nbsp;&nbsp;&nbsp;2. <b>Subtask Execution</b>: Execute each subtask using the unified model with step-by-step reasoning.</p>
-  <p>&nbsp;&nbsp;&nbsp;3. <b>Self-Check</b>: After completing each subtask, perform a validation check to ensure the intermediate result aligns with the intended sub-goal.</p>
-  <p>&nbsp;&nbsp;&nbsp;4. <b>Final Result</b>: Aggregate the validated subtask results to generate the final output.</p>
+  <p>While Chain-of-Thought (CoT) reasoning has been proven effective for complex text-based tasks, extending it to multimodal scenarios introduces new challenges. In visual contexts, human reasoning often relies on understanding how visual states evolve over time, such as tracking object movements and spatial interactions. This demands that Multimodal Large Language Models (MLLMs) reason not only at the textual level but also effectively incorporate and interpret visual cues.</p>
+  <p>To tackle this, we introduce **Uni-CoT**, a unified reasoning framework that extends CoT principles to the **multimodal domain**, empowering Multimodal Large Language Models (MLLMs) to perform **interpretable**, **step-by-step reasoning** across both **text and vision**. The core idea is to decompose complex multimodal tasks into structured, manageable steps that can be executed **sequentially or in parallel**, enabling more scalable and systematic reasoning as shown below.</p>
+
+  <h2 style="text-align:center;">Reasoning Pipeline</h2>
+  <img src="./files/pipeline.png" alt="Uni-CoT Pipeline" class="pipeline-gif" style="width:100%;">
+
+  <p>As illustrated in the figure above, the Uni-CoT framework adopts a two-level hierarchical reasoning architecture:</p>
+  <p>1. <i>Macro-Level CoT</i>: Decomposes a complex task into simpler subtasks and synthesizes their outcomes to derive the final answer. We design three planning mechanism for different scenarios: *Sequential Decomposition* for causal, step-by-step planning; *Parallel Decomposition* for collaborative, multi-branch planning; *Progressive Refinement* for unknown or highly complex scenarios requiring iterative exploration.</p>
+  <p>2. <i>Micro-Level CoT</i>: Focuses on executing individual subtasks while filtering out irrelevant information. We incorporate a *Self-Reflection* mechanism to ensure stable and high-quality results in each subtask.</p>
   <p>With these designs, our Uni-CoT framework aims to enable unified large models to tackle a wide range of challenging multimodal applications, including: </p>
-  <p>&nbsp;&nbsp;&nbsp;1. <b>Highly reliable image generation/editing; </b></p>
-  <p>&nbsp;&nbsp;&nbsp;2. <b>Visual planning; </b></p>
-  <p>&nbsp;&nbsp;&nbsp;3. <b>Geometric and physical reasoning.</b></p>
+  <p>1. <i>Highly reliable image generation/editing; </i></p>
+  <p>2. <i>Visual planning; </i></p>
+  <p>3. <i>Geometric and physical reasoning.</i></p>
 </div>
 
 <div class="content">
-  <h2 style="text-align:center;">Results</h2>
+  <h2 style="text-align:center;">Preliminary Results</h2>
   With our Uni-CoT design, currently we have achieve reliable image generation across various scenarios, moreover achieving sota performance on <a href="https://github.com/Fr0zenCrane/UniCoT" target="_blank">[WISE]</a> benchmark.
-  <h3>Qualitative Results</h3>
+  <h3>Preliminary Qualitative Results</h3>
   <img src="./files/qualitative_results.png" alt="Qualitative Results" class="teaser-gif" style="width:75%;">
-  <h3>Quantitative Results</h3>
+  <h3>Preliminary Quantitative Results</h3>
   <h3 style="text-align:center;">WISE</h3>
   <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%; font-family: Arial, sans-serif; margin: 20px 0;">
     <thead>
@@ -262,9 +264,9 @@
         <td>0.55</td>
       </tr>
       <tr>
-        <td>Bagel</td>
-        <td><b>0.76</b></td>
-        <td><b>0.69</b></td>
+        <td>Bagel-Think</td>
+        <td><u>0.76</u></td>
+        <td><u>0.69</u></td>
         <td><u>0.75</u></td>
         <td><u>0.65</u></td>
         <td><u>0.75</u></td>
@@ -273,13 +275,13 @@
       </tr>
       <tr>
         <td><b>Uni-CoT</b></td>
-        <td><u>0.75</u></td>
-        <td><u>0.66</u></td>
-        <td><b>0.78</b></td>
-        <td><b>0.70</b></td>
-        <td><b>0.78</b></td>
-        <td><b>0.71</b></td>
+        <td><b>0.76</b></td>
+        <td><b>0.60</b></td>
+        <td><b>0.76</b></td>
         <td><b>0.73</b></td>
+        <td><b>0.81</b></td>
+        <td><b>0.73</b></td>
+        <td><b>0.75</b></td>
       </tr>
       <tr>
         <td><i>GPT4O</i></td>
@@ -323,13 +325,15 @@
 <div class="content">
   <h2 style="margin-top: 0; color: #333;">BibTeX</h2>
   <pre style="white-space: pre-wrap; word-break: break-word; font-size: 0.95em; color: #2c3e50;">
-@misc{Uni-CoT,
-  author       = {SAIS-FUXI},
-  title        = {Uni-CoT: Towards Unified Chain-of-Thought Reasoning Across Text and Vision},
-  howpublished = {\url{https://github.com/Fr0zenCrane/UniCoT}},
-  year         = {2025},
-  note         = {Accessed: 2025-07-28}
-}
+@misc{qin2025unicot,
+      title={Uni-cot: Towards Unified Chain-of-Thought Reasoning Across Text and Vision}, 
+      author={Luozheng Qin and Jia Gong and Yuqing Sun and Tianjiao Li and Mengping Yang and Xiaomeng Yang and Chao Qu and Zhiyu Tan and Hao Li},
+      year={2025},
+      eprint={2508.05606},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2508.05606},
+} 
   </pre>
 </div>
 
@@ -340,7 +344,7 @@
       We thank the <a href="https://github.com/ByteDance-Seed/Bagel" target="_blank"><strong>ByteDance-Seed</strong></a> team for proposing <strong>Bagel</strong>, a powerful and widely adopted unified model for multimodal understanding and generation. Bagel serves as a strong foundation for our work and enables the development of <strong>Uni-CoT</strong>.
     </li>
     <li>
-      We also acknowledge the <a href="https://github.com/PKU-YuanGroup/WISE" target="_blank"><strong>PKU-YuanGroup</strong></a> for introducing <strong>WISE</strong>, a comprehensive benchmark for evaluating text-to-image models on complex semantic understanding and world knowledge integration. Its emphasis on reasoning makes it an ideal testbed for CoT-style self-check in multimodal contexts.
+      We also acknowledge the <a href="https://github.com/PKU-YuanGroup/WISE" target="_blank"><strong>PKU-YuanGroup</strong></a> for introducing <strong>WISE</strong>, a comprehensive benchmark for evaluating text-to-image models on complex semantic understanding and world knowledge integration. Its emphasis on reasoning makes it an ideal testbed for CoT-style self-reflection in multimodal contexts.
     </li>
     <li>
       The project page design is adapted from <a href="https://dreambooth.github.io/" target="_blank"><strong>DreamBooth</strong></a>, which we gratefully credit for its elegant and effective presentation.
